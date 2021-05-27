@@ -8,7 +8,54 @@ for i in range (len(l)):
 c = n + strlst
 slowModeTm = 0
 
-while True:
+running = False
+choice = int(input("1 for Login and 2 for Register: "))
+while choice != 1 and choice != 2:
+    choice = int(input("1 for Login and 2 for Register: "))
+
+if (choice == 1):
+    while not(running):
+        check1 = False
+        check2 = False
+        username_pos = 0
+        password_pos = 0
+        typed_username = input("Username: ") + '\n'
+        typed_password = input("Password: ") + '\n'
+        usernames = open("usernames.txt", "r")
+        passwords = open("passwords.txt", "r")
+        all_usernames = usernames.readlines()
+        for i in range(len(all_usernames)):
+            if typed_username == all_usernames[i]:
+                check1 = True
+                username_pos = i
+                break
+
+        all_passwords = passwords.readlines()
+        for i in range(len(all_passwords)):
+            if typed_password == all_passwords[i]:
+                check2 = True
+                password_pos = i
+                break
+
+        if check1 and check2 and (username_pos == password_pos):
+            running = True
+        else:
+            print("Username and Password do not match.")
+else:
+    typed_username = input("Username: ") + '\n'
+    check_usernames = open("usernames.txt", "r")
+    all_usernames = check_usernames.readlines()
+    while typed_username in all_usernames:
+        print("This username already exists. Please type a different one.")
+        typed_username = input("Username: ") + '\n'
+    typed_password = input("Password: ") + '\n'
+    usernames = open("usernames.txt", "a")
+    passwords = open("passwords.txt", "a")
+    usernames.write(typed_username)
+    passwords.write(typed_password)
+    print("Your account has been created.")
+
+while running:
     petsFile = open("pet.txt", "r")
     pets = int(petsFile.readline())
     petFull = "The streamer's pet has been pet " + str(pets + 1) + " times!"
@@ -266,3 +313,10 @@ while True:
 # sex badge (preferably animated) (custom for the vagina badge)
 # bigger boobs (custom) (make C cup normal (like 3 spaces in b/w or smthing) and have to option to reduce down to A or increase (by changing the number of spaces))
 # autocorrect specific characters to emojis
+# in the points file, add all accounts' points
+# add a feature to tag other accounts using "@"
+# this can also be used to view other ppl's pts
+# add all accounts' badges into one file
+# make a new file for the badges available
+# add other accounts' xp to the xp file
+# the code uses the number of the line of the username, password, pts, badge, xp, etc. (each account will have a unique line number and that line number will be same in all these files)
