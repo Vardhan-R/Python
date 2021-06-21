@@ -68,9 +68,6 @@ while running:
 
     # display
     scrn.fill((200, 200, 200))
-    mines_text = font.render(str(mines - mines_guessed), True, (255, 100, 100))
-    scrn.blit(mines_text, (1, 1))
-    mines_guessed = 0
     grid(rows, cols)
     for i in range(rows):
         for j in range(cols):
@@ -123,6 +120,10 @@ while running:
                                 cell_states[k][l] = True
         else:
             expand = False
+
+    mines_text = font.render(str(mines - mines_guessed), True, (255, 100, 100))
+    scrn.blit(mines_text, (1, 1))
+    mines_guessed = 0
 
     pygame.display.update()
 
