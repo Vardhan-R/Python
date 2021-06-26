@@ -95,14 +95,15 @@ class NeuralNetwork():
             for n in range(len(self.weights[0][m])): # each weight pos
                 z += self.weights[0][m][n] * self.inputs[n]
             z += self.biases[0][m]
-            self.activations[0][m] = self.sigmoid(z)
+            self.activations[0][m] = self.relu(z)
         for m in range(1, len(self.weights)): # layer
-            z = 0
             for n in range(len(self.weights[m])): # neuron of that layer
+                z = 0
                 for o in range(len(self.weights[m][n])): # weight pos of the neuron
-                    z += self.weights[m][n][o] * self.activations[m][n]
+                    z += self.weights[m][n][o] * self.activations[m - 1][o]
                 z += self.biases[m][n]
-                self.activations[m][n] = self.sigmoid(n)
+                self.activations[m][n] = self.relu(z)
+        print("weights:", self.weights, '\n', "biases:", self.biases)
         return self.activations
 
 
@@ -124,5 +125,3 @@ while running:
     pygame.display.update()
 
 pygame.quit()
-
-# calculate the activations manually to check if they are coorect
