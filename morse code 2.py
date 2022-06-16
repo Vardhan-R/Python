@@ -5,13 +5,13 @@ input_str = "hello".lower()
 mouse = pynput.mouse.Controller()
 unit_of_tm = 0.1
 
-def d():
+def dit():
     mouse.press(Button.left)
     time.sleep(unit_of_tm)
     mouse.release(Button.left)
     time.sleep(unit_of_tm)
 
-def D():
+def dah():
     mouse.press(Button.left)
     time.sleep(3 * unit_of_tm)
     mouse.release(Button.left)
@@ -22,96 +22,96 @@ mouse.position = (700, 420)
 
 for i in input_str:
     if i == "a":
-        d(); D()
+        dit(); dah()
     elif i == "b":
-        D(); d(); d(); d()
+        dah(); dit(); dit(); dit()
     elif i == "c":
-        D(); d(); D(); d()
+        dah(); dit(); dah(); dit()
     elif i == "d":
-        D(); d(); d()
+        dah(); dit(); dit()
     elif i == "e":
-        d()
+        dit()
     elif i == "f":
-        d(); d(); D(); d()
+        dit(); dit(); dah(); dit()
     elif i == "g":
-        D(); D(); d()
+        dah(); dah(); dit()
     elif i == "h":
-        d(); d(); d(); d()
+        dit(); dit(); dit(); dit()
     elif i == "i":
-        d(); d()
+        dit(); dit()
     elif i == "j":
-        d(); D(); D(); D()
+        dit(); dah(); dah(); dah()
     elif i == "k":
-        D(); d(); D()
+        dah(); dit(); dah()
     elif i == "l":
-        d(); D(); d(); d()
+        dit(); dah(); dit(); dit()
     elif i == "m":
-        D(); D()
+        dah(); dah()
     elif i == "n":
-        D(); d()
+        dah(); dit()
     elif i == "o":
-        D(); D(); D()
+        dah(); dah(); dah()
     elif i == "p":
-        d(); D(); D(); d()
+        dit(); dah(); dah(); dit()
     elif i == "q":
-        D(); D(); d(); D()
+        dah(); dah(); dit(); dah()
     elif i == "r":
-        d(); D(); d()
+        dit(); dah(); dit()
     elif i == "s":
-        d(); d(); d()
+        dit(); dit(); dit()
     elif i == "t":
-        D()
+        dah()
     elif i == "u":
-        d(); d(); D()
+        dit(); dit(); dah()
     elif i == "v":
-        d(); d(); d(); D()
+        dit(); dit(); dit(); dah()
     elif i == "w":
-        d(); D(); D()
+        dit(); dah(); dah()
     elif i == "x":
-        D(); d(); d(); D()
+        dah(); dit(); dit(); dah()
     elif i == "y":
-        D(); d(); D(); D()
+        dah(); dit(); dah(); dah()
     elif i == "z":
-        D(); D(); d(); d()
+        dah(); dah(); dit(); dit()
     elif i == " ":
         time.sleep(2 * unit_of_tm)
     elif i == "1":
-        d(); D(); D(); D(); D()
+        dit(); dah(); dah(); dah(); dah()
     elif i == "2":
-        d(); d(); D(); D(); D()
+        dit(); dit(); dah(); dah(); dah()
     elif i == "3":
-        d(); d(); d(); D(); D()
+        dit(); dit(); dit(); dah(); dah()
     elif i == "4":
-        d(); d(); d(); d(); D()
+        dit(); dit(); dit(); dit(); dah()
     elif i == "5":
-        d(); d(); d(); d(); d()
+        dit(); dit(); dit(); dit(); dit()
     elif i == "6":
-        D(); d(); d(); d(); d()
+        dah(); dit(); dit(); dit(); dit()
     elif i == "7":
-        D(); D(); d(); d(); d()
+        dah(); dah(); dit(); dit(); dit()
     elif i == "8":
-        D(); D(); D(); d(); d()
+        dah(); dah(); dah(); dit(); dit()
     elif i == "9":
-        D(); D(); D(); D(); d()
+        dah(); dah(); dah(); dah(); dit()
     elif i == "0":
-        D(); D(); D(); D(); D()
+        dah(); dah(); dah(); dah(); dah()
     elif i == ".":
-        d(); D(); d(); D(); d(); D()
+        dit(); dah(); dit(); dah(); dit(); dah()
     elif i == ",":
-        D(); D(); d(); d(); D(); D()
+        dah(); dah(); dit(); dit(); dah(); dah()
     elif i == "?":
-        d(); d(); D(); D(); d(); d()
+        dit(); dit(); dah(); dah(); dit(); dit()
     elif i == ";":
-        D(); d(); D(); d(); D(); d()
+        dah(); dit(); dah(); dit(); dah(); dit()
     elif i == ":":
-        D(); D(); D(); d(); d(); d()
+        dah(); dah(); dah(); dit(); dit(); dit()
     elif i == "+":
-        d(); D(); d(); D(); d()
+        dit(); dah(); dit(); dah(); dit()
     elif i == "-":
-        D(); d(); d(); d(); d(); D()
+        dah(); dit(); dit(); dit(); dit(); dah()
     elif i == "/":
-        D(); d(); d(); D(); d()
+        dah(); dit(); dit(); dah(); dit()
     elif i == "=":
-        D(); d(); d(); d(); D()
+        dah(); dit(); dit(); dit(); dah()
 
     time.sleep(2 * unit_of_tm)
