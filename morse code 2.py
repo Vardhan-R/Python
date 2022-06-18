@@ -1,15 +1,12 @@
+from pynput.keyboard import Key
 from pynput.mouse import Button
+from selenium import webdriver
 import pynput, time
 
 input_str = "hello".lower()
+keyboard = pynput.keyboard.Controller()
 mouse = pynput.mouse.Controller()
 unit_of_tm = 0.1
-
-def dit():
-    mouse.press(Button.left)
-    time.sleep(unit_of_tm)
-    mouse.release(Button.left)
-    time.sleep(unit_of_tm)
 
 def dah():
     mouse.press(Button.left)
@@ -17,8 +14,28 @@ def dah():
     mouse.release(Button.left)
     time.sleep(unit_of_tm)
 
-time.sleep(10)
+def dit():
+    mouse.press(Button.left)
+    time.sleep(unit_of_tm)
+    mouse.release(Button.left)
+    time.sleep(unit_of_tm)
+
+driver = webdriver.Chrome("C:\Program Files (x86)\chromedriver.exe")
+driver.get("https://musiclab.chromeexperiments.com/Spectrogram")
+
+keyboard.press(Key.ctrl)
+keyboard.press("w")
+keyboard.release("w")
+keyboard.release(Key.ctrl)
+keyboard.press(Key.cmd)
+keyboard.press(Key.up)
+keyboard.release(Key.up)
+keyboard.release(Key.cmd)
+mouse.position = (330, 650)
+mouse.click(Button.left)
 mouse.position = (700, 420)
+
+time.sleep(3)
 
 for i in input_str:
     if i == "a":
@@ -115,3 +132,7 @@ for i in input_str:
         dah(); dit(); dit(); dit(); dah()
 
     time.sleep(2 * unit_of_tm)
+
+time.sleep(5)
+
+driver.quit()
