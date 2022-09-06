@@ -6,7 +6,7 @@ import pynput, time
 
 word_lst = []
 
-PATH = "C:\Program Files (x86)\chromedriver.exe"
+PATH = "D:\Program Files (x86)\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
 driver.get("https://humanbenchmark.com/tests/verbal-memory")
 
@@ -18,12 +18,12 @@ while len(word_lst) < 1000:
     try:
         word = driver.find_element(By.CLASS_NAME, "word")
         current_word = word.text
+        temp = driver.find_elements(By.CLASS_NAME, "e19owgy710")
         if current_word in word_lst:
-            mouse.position = (460, 535)
+            temp[0].click()
         else:
             word_lst.append(current_word)
-            mouse.position = (595, 535)
-        mouse.click(Button.left, 1)
+            temp[1].click()
     except:
         print("Error: try failed.")
         break
