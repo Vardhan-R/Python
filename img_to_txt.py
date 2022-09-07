@@ -9,7 +9,7 @@ for i in range(20):
 
     txt_file.write(f"{img_size[0]} {img_size[1]}\n")
 
-    for j in range(img_size[1]):
+    for j in range(img_size[0] * img_size[1]):
         txt_file.write(" ".join([str(x) for x in pixels_lst[j]]) + '\n')
 
     txt_file.close()
