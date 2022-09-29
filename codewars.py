@@ -1,6 +1,6 @@
-import math, pygame, pynput, random, shelve, time
+import math, numpy as np, pygame, pynput, random, shelve, time
 import matplotlib.pyplot as plt
-# import import_vectors as vect
+from built_modules import import_vectors as vect
 from pynput.keyboard import Key
 from pynput.mouse import Button
 # import encryption_and_decryption as end
@@ -529,3 +529,74 @@ from selenium.webdriver.support.ui import WebDriverWait
 # func(1, 1, lst.copy())
 # for i in lst:
 #     print(i)
+
+# def is_reachable(start_board, end_board):
+#     if start_board[1][1] != end_board[1][1]: # centre
+#         return False
+#     elif (sum([x.count("B") for x in start_board]) + sum([x.count("W") for x in start_board]) == 8) and start_board != end_board:
+#         return False
+#     else:
+#         s = ""
+#         if start_board[0][0] != "_":
+#             s += start_board[0][0]
+#         if start_board[2][1] != "_":
+#             s += start_board[2][1]
+#         if start_board[0][2] != "_":
+#             s += start_board[0][2]
+#         if start_board[1][0] != "_":
+#             s += start_board[1][0]
+#         if start_board[2][2] != "_":
+#             s += start_board[2][2]
+#         if start_board[0][1] != "_":
+#             s += start_board[0][1]
+#         if start_board[2][0] != "_":
+#             s += start_board[2][0]
+#         if start_board[1][2] != "_":
+#             s += start_board[1][2]
+
+#         e = ""
+#         if end_board[0][0] != "_":
+#             e += end_board[0][0]
+#         if end_board[2][1] != "_":
+#             e += end_board[2][1]
+#         if end_board[0][2] != "_":
+#             e += end_board[0][2]
+#         if end_board[1][0] != "_":
+#             e += end_board[1][0]
+#         if end_board[2][2] != "_":
+#             e += end_board[2][2]
+#         if end_board[0][1] != "_":
+#             e += end_board[0][1]
+#         if end_board[2][0] != "_":
+#             e += end_board[2][0]
+#         if end_board[1][2] != "_":
+#             e += end_board[1][2]
+
+#         if len(s) != len(e):
+#             return False
+#         else:
+#             temp = s
+#             for i in range(len(s)):
+#                 if temp == e:
+#                     return True
+#                 else:
+#                     temp = temp[1:] + temp[0]
+#             return False
+
+# print(is_reachable(
+#             [ ['_', '_', 'W'],
+#               ['_', '_', '_'],
+#               ['_', '_', '_'] 
+#             ],[
+#               ['_', '_', 'B'], 
+#               ['_', '_', '_'],
+#               ['_', '_', '_'] 
+#             ]))
+
+# arr = np.arange(120).reshape((12, 10))
+
+# print(arr)
+
+# print(arr[3: 5, -1])
+
+# print(arr[[2, 3], :][:, [0, 1]])
