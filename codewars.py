@@ -1,13 +1,13 @@
-import math, numpy as np, pygame, pynput, random, shelve, time
-import matplotlib.pyplot as plt
 from built_modules import import_vectors as vect
+from copy import deepcopy
 from pynput.keyboard import Key
 from pynput.mouse import Button
-# import encryption_and_decryption as end
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+import collections, math, matplotlib.pyplot as plt, numpy as np, pygame, pynput, random, shelve, time
+# import encryption_and_decryption as end
 
 # corner fill
 # def corner_fill(square):
@@ -597,6 +597,105 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 # print(arr)
 
+# pos = (5, 8)
+
+# print(np.reshape(arr[[pos[1] - 1, pos[1], pos[1] + 1], :][:, [pos[0] - 1, pos[0], pos[0] + 1]], 9))
 # print(arr[3: 5, -1])
 
 # print(arr[[2, 3], :][:, [0, 1]])
+
+# print(np.average([7, 9, 2, 4, 6], weights = [0, 1, 2, 3, 4]))
+# print((9 + 4 + 12 + 24) / 10)
+
+# x = range(20)
+# y_exp = [1.0, 2.0, 2.5, 3.0, 3.375, 3.75, 4.0625, 4.375, 4.6484375, 4.921875, 5.16796875, 5.4140625, 5.6396484375, 5.865234375, 6.07470703125, 6.2841796875, 6.480560302734375, 6.67694091796875, 6.8624114990234375, 7.047882080078125]
+# # y_the_1 = [math.sqrt((i + 1) ** 2 - 1) for i in x]
+# # y_the_2 = [math.sqrt(i) + 1 for i in x]
+# # y_the_3 = [i ** (1 - 1 / math.e) + 1 for i in x]
+# y_the_4 = [i ** ((math.sqrt(5) - 1)/ 2) + 1 for i in x]
+# # y_the_5 = [i ** 0.6 + 1 for i in x]
+
+# plt.plot(x, y_exp, label = "exp")
+# # plt.plot(x, y_the_1, label = "hyperbola")
+# # plt.plot(x, y_the_2, label = "sqrt")
+# # plt.plot(x, y_the_3, label = "pwr (1 - 1 / e)")
+# plt.plot(x, y_the_4, label = "pwr (phi - 1)")
+# # plt.plot(x, y_the_5, label = "pwr 0.6")
+# plt.legend()
+# plt.show()
+
+# flattened_grid = [1, 1, 1, 1, 0, 0, 0, 1, 1]
+# arr = np.array(flattened_grid)
+# lst = list(arr)
+# print(lst)
+# for i in range(len(flattened_grid)):
+#     if not(flattened_grid[i]): # 1st black found
+#         break
+
+# for j in range(i, len(flattened_grid)):
+#     if flattened_grid[j]: # not black found
+#         break
+# else:
+#     j = 0
+# print(j)
+
+# if None == None:
+#     print("n = n")
+
+# print(len("686ErpVB3IYx9yEaSPW_Tg"))
+
+# arr = np.array([[5, 5, 5, 12], [7, 9, 9, 12], [1, 1, 0, -7], [-7, 2, 4, 3]])
+
+# # cnt = dict(collections.Counter(arr))
+# # print(arr[:, -1])
+# # arr *= -1
+# print(arr)
+# arr[2][2] += 100
+# print(arr)
+
+a = np.array([[[10, 7, 9], [12, -3.3, 4]], [[2, 4, 5], [-1, 0, 1.5]], [[0.5, -0.5, 1], [0, 0, 2]]])
+b = np.array([[[10, 7, 9], [12, -3.3, 4]], [[2, 4, 5], [-1, 0, 1.5]], [[0.5, -0.5, 1], [0, 0, 9]]])
+# print(type(list(a)[0]))
+
+# a = np.array(np.array([1, 1, 1]))
+
+# print(a - 1)
+
+# print(type(a.shape))
+
+# print(" ".join(["5", "6", "7"]) + "nxnxn")
+
+# a = {"a": True, "d": False}
+
+# for i in a:
+#     print(i)
+
+def on_press(key):
+    try:
+        # print('alphanumeric key {0} pressed'.format(
+        #     key.char))
+        return 'alphanumeric key {0} pressed'.format(
+            key.char)
+    except AttributeError:
+        # print('special key {0} pressed'.format(
+        #     key))
+        pass
+
+def on_release(key):
+    print('{0} released'.format(
+        key))
+    if key == pynput.keyboard.Key.esc:
+        # Stop listener
+        return False
+
+# Collect events until released
+with pynput.keyboard.Listener(
+        on_press=on_press,
+        on_release=on_release) as listener:
+    listener.join()
+
+# ...or, in a non-blocking fashion:
+# listener = pynput.keyboard.Listener(
+#     on_press=on_press,
+#     on_release=on_release)
+# listener.start()
