@@ -1,7 +1,8 @@
-import math, pygame, random
+# If this is used with import_geneticalgorithm, then the weights and biases may be in numpy arrays instead of lists.
+import math, pygame, random, shelve
 
 class NeuralNetwork:
-    def __init__(self, n): # has [number of neurons in the layer]
+    def __init__(self, n: tuple[int] | list[int]): # has [number of neurons in the layer]
         self.n = len(n)
         self.all_neurons = n
         self.n_i_neurons = n[0]
@@ -35,7 +36,7 @@ class NeuralNetwork:
             if i == self.n - 1:
                 self.costs = [0 for j in range(n[i])]
 
-    def show(self, screen, canvas):
+    def show(self, screen: pygame.display, canvas: tuple[int, int] | list[int, int]):
         for i in range(self.n):
             for j in range(self.all_neurons[i]):
                 temp_coor_1 = (canvas[0] * (i + 1 / 2) / self.n, canvas[1] * (j + 1 / 2) / self.all_neurons[i])
@@ -60,7 +61,7 @@ class NeuralNetwork:
                 else:
                     pygame.draw.circle(screen, (temp_clr, temp_clr, 0), (canvas[0] * (i + 1 / 2) / self.n, canvas[1] * (j + 1 / 2) / self.all_neurons[i] - 32), 10)
 
-    def feedForward(self, input_lst):
+    def feedForward(self, input_lst: list[float | int]):
         for i in range(self.all_neurons[0]):
             self.activations[0][i] = sigmoid(input_lst[i])
 
@@ -72,11 +73,11 @@ class NeuralNetwork:
                 self.z_lst[i - 1][j] = temp
                 self.activations[i][j] = sigmoid(self.z_lst[i - 1][j])
 
-    def calcCosts(self, ans):
+    def calcCosts(self, ans: list[float | int]):
         for i in range(self.all_neurons[-1]):
             self.costs[i] = (ans[i] - self.activations[-1][i]) ** 2
 
-    def backProp(self, ans):
+    def backProp(self, ans: list[float | int], learning_rate: float | int):
         for i in range(1, self.n): # layer num
             for j in range(self.all_neurons[i]): # "i" layer's neuron num
                 for k in range(self.all_neurons[i - 1]): # "i - 1" layer's neuron num
@@ -86,10 +87,10 @@ class NeuralNetwork:
         for i in range(1, self.n): # layer num
             for j in range(self.all_neurons[i]): # "i" layer's neuron num
                 for k in range(self.all_neurons[i - 1]): # "i - 1" layer's neuron num
-                    self.weights[i - 1][j][k] -= self.change_weights[i - 1][j][k]
-                self.biases[i - 1][j] -= self.change_biases[i - 1][j]
+                    self.weights[i - 1][j][k] -= learning_rate * self.change_weights[i - 1][j][k]
+                self.biases[i - 1][j] -= learning_rate * self.change_biases[i - 1][j]
 
-    def pD_C_a(self, m, k, ans): # pD_C_a ==> partial differential of cost with respect to activation
+    def pD_C_a(self, m: int, k: int, ans: list[float | int]) -> float: # pD_C_a ==> partial differential of cost with respect to activation
         if m < self.n - 1:
             temp = 0
             for i in range(self.all_neurons[m + 1]):
@@ -98,24 +99,36 @@ class NeuralNetwork:
         else:
             return 2 * (self.activations[-1][k] - ans[k])
 
-    def pD_C_w(self, m, k, j, ans): # pD_C_w ==> partial differential of cost with respect to weight
+    def pD_C_w(self, m: int, k: int, j: int, ans: list[float | int]) -> float: # pD_C_w ==> partial differential of cost with respect to weight
         return self.pD_C_a(m, k, ans) * sigmoid(self.z_lst[m - 1][k]) * sigmoid(-self.z_lst[m - 1][k]) * self.activations[m - 1][j]
 
-    def pD_C_b(self, m, k, ans): # pD_C_b ==> partial differential of cost with respect to bias
+    def pD_C_b(self, m: int, k: int, ans: list[float | int]) -> float: # pD_C_b ==> partial differential of cost with respect to bias
         return self.pD_C_a(m, k, ans) * sigmoid(self.z_lst[m - 1][k]) * sigmoid(-self.z_lst[m - 1][k])
 
-    def best(self):
+    def best(self) -> int:
         temp = 0
         for i in range(self.all_neurons[-1]):
             if self.activations[-1][i] > self.activations[-1][temp]:
                 temp = i
         return temp
 
-def sigmoid(x):
+    def saveNeuralNetwork(self, file_path_and_name: str):
+        d = shelve.open(file_path_and_name, writeback = True)
+        d["weights"] = self.weights
+        d["biases"] = self.biases
+        d.close()
+
+    def loadNeuralNetwork(self, file_path_and_name: str):
+        d = shelve.open(file_path_and_name)
+        self.weights = d["weights"]
+        self.biases = d["biases"]
+        d.close()
+
+def sigmoid(x: float | int) -> float | int:
     try:
         return 1 / (1 + math.e ** (-x))
     except:
         return 0
 
-def relu(x):
+def relu(x: float | int) -> float:
     return (x + abs(x)) / 2
