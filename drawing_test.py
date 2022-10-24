@@ -1,27 +1,26 @@
 from manim import *
-import pygame
+import math, pygame
 
 pygame.init()
 
-width = 1200
-height = 1200
+test_img_no = 6
+img = pygame.image.load(f"C:/Users/CSC/Desktop/CS/outlining_test_images/test_img_{test_img_no}.png", 'r')
+width = img.get_width()
+height = img.get_height()
 running = True
 
 scrn = pygame.display.set_mode((width, height))
-img = pygame.image.load("C:/Users/CSC/Desktop/test_img_2.png", 'r')
-
 scrn.fill(BLACK)
 scrn.blit(img, (0, 0))
-lst = []
 
-txt_file = open("C:/Users/CSC/Desktop/CS/python_files/outlined_data_2.txt", 'r')
-for i in range(1000):
-    temp = txt_file.readline().split(" ")
-    lst.append((int(temp[0]), int(temp[1][:-1])))
-    # print((int(temp[0]), int(temp[1][:-1])))
+txt_file = open(f"C:/Users/CSC/Desktop/CS/python_files/outlined_data_{test_img_no}.txt", 'r')
+lst = txt_file.readlines()
 txt_file.close()
+for i in range(len(lst)):
+    temp = lst[i].split(" ")
+    lst[i] = (int(temp[0]), int(temp[1][:-1]))
 
-# lst = [lst[x] for x in range(len(lst)) if not(x % 50)]
+# lst = [lst[math.floor(x) - 1] for x in np.linspace(0, len(lst))]
 # print(lst)
 
 for i in lst:
