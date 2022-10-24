@@ -1,7 +1,8 @@
 from PIL import Image
 import numpy as np, random
 
-im = Image.open("img_2.jpeg", 'r')
+test_img_no = 6
+im = Image.open(f"C:/Users/CSC/Desktop/CS/outlining_test_images/test_img_{test_img_no}.jpg", 'r')
 
 pixels_arr = np.array(list(im.getdata()))
 img_size = im.size # width (cols) (x-axis), height (rows) (y-axis)
@@ -20,19 +21,19 @@ for i in range(img_size[1] - 1): # row
 # temp[::-1].sort()
 # print(temp[:10])
 
-threshold = 100
+threshold = 200
 
 pix = im.load()
 
 for i in range(img_size[1]): # row
     for j in range(img_size[0]): # col
         # white
-        # temp = 255 * int(diff_arr[i][j] >= threshold)
-        # pix[j, i] = (temp, temp, temp)
+        temp = 255 * int(diff_arr[i][j] >= threshold)
+        pix[j, i] = (temp, temp, temp)
 
-        if diff_arr[i][j] < threshold:
-            pix[j, i] = (0, 0, 0)
-        else:
+        # if diff_arr[i][j] < threshold:
+        #     pix[j, i] = (0, 0, 0)
+        # else:
             # random
             # pix[j, i] = (random.randrange(256), random.randrange(256), random.randrange(256))
 
@@ -46,7 +47,7 @@ for i in range(img_size[1]): # row
             # pix[j, i] = (round(255 * (1 - (i + j) / (img_size[0] + img_size[1]))), 0, round(255 * (i + j) / (img_size[0] + img_size[1])))
 
             # red to blue (other diagonal)
-            pix[j, i] = (round(255 * (1 - (i - j + img_size[1]) / (img_size[0] + img_size[1]))), 0, round(255 * (i - j + img_size[1]) / (img_size[0] + img_size[1])))
+            # pix[j, i] = (round(255 * (1 - (i - j + img_size[1]) / (img_size[0] + img_size[1]))), 0, round(255 * (i - j + img_size[1]) / (img_size[0] + img_size[1])))
 
             # green to yellow (left to right)
             # pix[j, i] = (round(255 * j / img_size[0]), 255, 0)
