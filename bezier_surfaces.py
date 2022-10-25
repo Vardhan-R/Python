@@ -13,6 +13,7 @@ prev_key_states = {"w": False, "s": False, "a": False, "d": False}
 pmb1s = False
 phi = 0
 theta = 0
+gamma = 0
 spd = 0.1
 
 scrn = pygame.display.set_mode((width, height), pygame.DOUBLEBUF | pygame.OPENGL)
@@ -48,7 +49,6 @@ def pointOnSurface(u: float | int, v: float | int) -> np.ndarray:
     for i in range(n + 1):
         temp_arr = np.array([0, 0, 0], dtype = np.float64)
         for j in range(m + 1):
-            # print(all_v_coeffs[j] * ctrl_pts[i][j])
             temp_arr += all_v_coeffs[j] * ctrl_pts[i][j]
         p += all_u_coeffs[i] * temp_arr
 
@@ -56,16 +56,17 @@ def pointOnSurface(u: float | int, v: float | int) -> np.ndarray:
 
 # calculating the pts on the surface
 all_pts_lst = []
-# for i in range(101):
+# for i in range(100):
 #     temp_lst = []
-#     for j in range(101):
-#         temp_lst.append(pointOnSurface(i / 100, j / 100))
+#     for j in range(100):
+#         temp = pointOnSurface(i / 100, j / 100)
+#         temp_lst.append(temp)
 #     all_pts_lst.append(np.array(temp_lst))
 # all_pts_arr = np.array(all_pts_lst)
 
 temp_lst = []
-while u <= 1:
-    while v <= 1:
+while u < 1:
+    while v < 1:
         temp_lst.append(pointOnSurface(u, v))
         v += delta_v
     else:
@@ -113,7 +114,15 @@ while running:
     if pygame.mouse.get_pressed()[0]:
         if pmb1s:
             current_mouse_pos = pygame.mouse.get_pos()
-            glRotatef(1, current_mouse_pos[1] - initial_mouse_pos[1], current_mouse_pos[0] - initial_mouse_pos[0], 0)
+            horizontal_mouse_move = current_mouse_pos[0] - initial_mouse_pos[0] # ard "y"
+            vertical_mouse_move = current_mouse_pos[1] - initial_mouse_pos[1] # ard "x"
+            delta_theta = math.cos(phi) * (math.cos(gamma) * vertical_mouse_move + math.sin(gamma) * horizontal_mouse_move)
+            delta_phi = math.cos(theta) * (math.sin(gamma) * vertical_mouse_move + math.cos(gamma) * horizontal_mouse_move)
+            delta_gamma = math.cos(theta) * math.sin(phi) * vertical_mouse_move + math.cos(phi) * math.sin(theta) * horizontal_mouse_move
+            glRotatef(1, delta_theta, delta_phi, delta_gamma)
+            theta += delta_theta
+            phi += delta_phi
+            gamma += delta_gamma
             initial_mouse_pos = current_mouse_pos
         else:
             pmb1s = True
