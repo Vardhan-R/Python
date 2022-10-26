@@ -12,7 +12,7 @@ while True:
     time.sleep(0.1)
     mouse.click(Button.left, 1)
     time.sleep(3)
-    mouse.position = (1069, 861)
+    mouse.position = (1094, 845)
     time.sleep(0.1)
     mouse.click(Button.left, 1)
     time.sleep(10)
