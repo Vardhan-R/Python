@@ -653,8 +653,8 @@ import collections, math, matplotlib.pyplot as plt, numpy as np, pygame, pynput,
 # arr[2][2] += 100
 # print(arr)
 
-a = np.array([[[10, 7, 9], [12, -3.3, 4]], [[2, 4, 5], [-1, 0, 1.5]], [[0.5, -0.5, 1], [0, 0, 2]]])
-b = np.array([[[10, 7, 9], [12, -3.3, 4]], [[2, 4, 5], [-1, 0, 1.5]], [[0.5, -0.5, 1], [0, 0, 9]]])
+# a = np.array([[[10, 7, 9], [12, -3.3, 4]], [[2, 4, 5], [-1, 0, 1.5]], [[0.5, -0.5, 1], [0, 0, 2]]])
+# b = np.array([[[10, 7, 9], [12, -3.3, 4]], [[2, 4, 5], [-1, 0, 1.5]], [[0.5, -0.5, 1], [0, 0, 9]]])
 # print(type(list(a)[0]))
 
 # a = np.array(np.array([1, 1, 1]))
@@ -670,32 +670,35 @@ b = np.array([[[10, 7, 9], [12, -3.3, 4]], [[2, 4, 5], [-1, 0, 1.5]], [[0.5, -0.
 # for i in a:
 #     print(i)
 
-def on_press(key):
-    try:
-        # print('alphanumeric key {0} pressed'.format(
-        #     key.char))
-        return 'alphanumeric key {0} pressed'.format(
-            key.char)
-    except AttributeError:
-        # print('special key {0} pressed'.format(
-        #     key))
-        pass
+# def on_press(key):
+#     try:
+#         # print('alphanumeric key {0} pressed'.format(
+#         #     key.char))
+#         return 'alphanumeric key {0} pressed'.format(
+#             key.char)
+#     except AttributeError:
+#         # print('special key {0} pressed'.format(
+#         #     key))
+#         pass
 
-def on_release(key):
-    print('{0} released'.format(
-        key))
-    if key == pynput.keyboard.Key.esc:
-        # Stop listener
-        return False
+# def on_release(key):
+#     print('{0} released'.format(
+#         key))
+#     if key == pynput.keyboard.Key.esc:
+#         # Stop listener
+#         return False
 
-# Collect events until released
-with pynput.keyboard.Listener(
-        on_press=on_press,
-        on_release=on_release) as listener:
-    listener.join()
+# # Collect events until released
+# with pynput.keyboard.Listener(
+#         on_press=on_press,
+#         on_release=on_release) as listener:
+#     listener.join()
 
 # ...or, in a non-blocking fashion:
 # listener = pynput.keyboard.Listener(
 #     on_press=on_press,
 #     on_release=on_release)
 # listener.start()
+
+a = np.array([[[10, 7, 9], [12, -3.3, 4]], [[2, 4, 5], [-1, 0, 1.5]], [[0.5, -0.5, 1], [0, 0, 2]]])
+print(a + np.array([-10, 5, 6]))
