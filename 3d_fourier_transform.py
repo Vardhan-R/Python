@@ -5,17 +5,18 @@ import math, numpy as np, pygame, random, time
 
 pygame.init()
 
-width = 1600
-height = 1200
+width = 800
+height = 600
 p = []
-for i in range(3):
+for i in range(5):
     p.append((random.randrange(-250, 250) / 100, random.randrange(-250, 250) / 100, random.randrange(-250, 250) / 100))
+# p = [(-2.5, -2.5, -2.5), (1, 0, 2), (2, 2.5, 1.7)]
 # p = [(-2, 1, 0), (-1.5, 0, -1), (-1, -1, 0), (-0.5, 0, 1), (0, 1, 0), (0.5, 0, -1), (1, -1, 0), (1.5, 0, 1), (2, 1, 0)]
 # temp_lst_1 = [math.pi * x / 5 for x in range(10)] # helix
 # temp_lst_2 = [(math.cos(x), math.sin(x)) for x in temp_lst_1]
 # p = list(np.reshape(np.array([[(temp_lst_2[y][0], temp_lst_2[y][1], x + y / 10) for y in range(10)] for x in range(-5, 5)]), (1, -1, 3))[0])
 
-# t < 2 * math.pi * (nN - 2) / (nN - 1) ==> non-cyclic
+# t < 2 * math.pi * (1 - 1 / nN) ==> non-cyclic
 
 pts = []
 all_pts = []
@@ -31,8 +32,6 @@ pmb1s = False
 class Circle:
     def __init__(self, colour: tuple, radius: float | int = 1, points: int = 32):
         self.clr = colour
-        #, centre: vect.Vector = vect.Vector(0, 0, 0)
-        # self.centre = centre
         self.radius = radius
         self.pts_arr = np.array([(radius * math.cos(2 * math.pi * x / points), radius * math.sin(2 * math.pi * x / points), 0) for x in range(points)])
 
@@ -143,42 +142,39 @@ def generateEpicycles(p):
 def calculatePoint(t, freqs, coeffs, coeffs_mag = None, plane = "xy", initial = None):
     circle_centres = []
     circle_radii = []
-    lines = [(0, 0, 0)]
     pt = Comp(0, 0)
     if plane == "xy":
         for i in range(len(freqs)):
             temp_pt = mult(coeffs[i], compExp(1, freqs[i] * t))
-            circle_radii.append(coeffs_mag[i] / nN)
-            temp_comp = add(pt, temp_pt)
-            circle_centres.append((pt.r / nN, pt.i / nN, 0))
-            lines.append((temp_comp.r / nN, temp_comp.i / nN, 0))
-        pt = add(pt, temp_pt)
+            circle_radii.append(coeffs_mag[i] / (2 * nN))
+            circle_centres.append((pt.r / (2 * nN), pt.i / (2 * nN), 0))
+            pt = add(pt, temp_pt)
+        lines = circle_centres.copy()
+        lines.append((pt.r / (2 * nN), pt.i / (2 * nN), 0))
         pt.setMag(pt.mag() / nN)
         pt = np.array([pt.r, pt.i, 0])
-        # pygame.draw.circle(scrn, white, (p[i][0], p[i][1]), 2)
-        # pygame.draw.circle(scrn, green, (pt.r / nN, pt.i / nN), coeffs_mag[i] / nN, width = 1)
-        # pygame.draw.line(scrn, green, (pt.r / nN, pt.i / nN), (add(pt, temp_pt).r / nN, add(pt, temp_pt).i / nN))
+
     elif plane == "xz":
         for i in range(len(freqs)):
             temp_pt = mult(coeffs[i], compExp(1, freqs[i] * t))
-            circle_radii.append(coeffs_mag[i] / nN)
-            temp_comp = add(pt, temp_pt)
-            circle_centres.append((pt.r / nN, 0, pt.i / nN))
-            lines.append((temp_comp.r / nN, 0, temp_comp.i / nN))
-        pt = add(pt, temp_pt)
+            circle_radii.append(coeffs_mag[i] / (2 * nN))
+            circle_centres.append((pt.r / (2 * nN), 0, pt.i / (2 * nN)))
+            pt = add(pt, temp_pt)
+        lines = circle_centres.copy()
+        lines.append((pt.r / (2 * nN), 0, pt.i / (2 * nN)))
         pt.setMag(pt.mag() / nN)
         pt = np.array([pt.r, 0, pt.i])
+
     else: # plane == "yz"
         for i in range(len(freqs)):
             temp_pt = mult(coeffs[i], compExp(1, freqs[i] * t))
-            circle_radii.append(coeffs_mag[i] / nN)
-            temp_comp = add(pt, temp_pt)
-            circle_centres.append((0, pt.r / nN, pt.i / nN))
-            lines.append((0, temp_comp.r / nN, temp_comp.i / nN))
-        pt = add(pt, temp_pt)
+            circle_radii.append(coeffs_mag[i] / (2 * nN))
+            circle_centres.append((0, pt.r / (2 * nN), pt.i / (2 * nN)))
+            pt = add(pt, temp_pt)
+        lines = circle_centres.copy()
+        lines.append((0, pt.r / (2 * nN), pt.i / (2 * nN)))
         pt.setMag(pt.mag() / nN)
         pt = np.array([0, pt.r, pt.i])
-    # pygame.draw.circle(scrn, red, (pt.r, pt.i), 2)
     circle_centres = np.array(circle_centres)
     lines = np.array(lines)
     if type(initial) == np.ndarray:
@@ -222,28 +218,17 @@ while running:
     else:
         pmb1s = False
 
-    # if t < 2 * math.pi * (nN - 2) / (nN - 1):
+    # if t < 2 * math.pi * (1 - 1 / nN):
     if t < 2 * math.pi:
         pt_xy, circle_centres_xy, circle_radii_xy, lines_xy = calculatePoint(t, freqs_xy, coeffs_xy, coeffs_mag_xy, "xy")
         circles_xy = [Circle((0, 1, 0), circle_radii_xy[i]) for i in range(nN)]
-        # circle_centres_xy = np.array([[i[0], i[1], 0] for i in circle_centres_xy])
-        # lines_xy = np.array([[i[0], i[1], 0] for i in lines_xy])
+
         pt_xz, circle_centres_xz, circle_radii_xz, lines_xz = calculatePoint(t, freqs_xz, coeffs_xz, coeffs_mag_xz, "xz", lines_xy[-1])
         circles_xz = [Circle((0, 1, 0), circle_radii_xz[i]) for i in range(nN)]
-        # circle_centres_xz = np.array([[i[0], 0, i[1]] for i in circle_centres_xz])
-        # lines_xz = np.array([[i[0], 0, i[1]] for i in lines_xz])
+
         pt_yz, circle_centres_yz, circle_radii_yz, lines_yz = calculatePoint(t, freqs_yz, coeffs_yz, coeffs_mag_yz, "yz", lines_xz[-1])
         circles_yz = [Circle((0, 1, 0), circle_radii_yz[i]) for i in range(nN)]
-        # circle_centres_yz = np.array([[0, i[0], i[1]] for i in circle_centres_yz])
-        # lines_yz = np.array([[0, i[0], i[1]] for i in lines_yz])
-        # lines_xz[0] += lines_xy[-1]
-        # lines_yz[0] += lines_xz[-1]
-        # print(lines_xy[-1])
         for i in range(nN):
-            # circle_centres_yz[i] += lines_xz[-1] + lines_xy[-1]
-            # lines_yz[i + 1] += lines_xz[-1] + lines_xy[-1]
-            # circle_centres_xz[i] += lines_xy[-1]
-            # lines_xz[i + 1] += lines_xy[-1]
             circles_xz[i].rotate(math.pi / 2)
             circles_yz[i].rotate(0, math.pi / 2)
             circles_xy[i].show(circle_centres_xy[i])
@@ -256,29 +241,29 @@ while running:
         # xy
         glBegin(GL_LINES)
         for i in lines_xy:
-            glVertex3fv((i[0], i[1], 0))
+            glVertex3fv((i[0], i[1], i[2]))
         glEnd()
         glBegin(GL_LINES)
         for i in lines_xy[1:]:
-            glVertex3fv((i[0], i[1], 0))
+            glVertex3fv((i[0], i[1], i[2]))
         glEnd()
         # xz
         glBegin(GL_LINES)
         for i in lines_xz:
-            glVertex3fv((i[0], 0, i[1]))
+            glVertex3fv((i[0], i[1], i[2]))
         glEnd()
         glBegin(GL_LINES)
         for i in lines_xz[1:]:
-            glVertex3fv((i[0], 0, i[1]))
+            glVertex3fv((i[0], i[1], i[2]))
         glEnd()
         # yz
         glBegin(GL_LINES)
         for i in lines_yz:
-            glVertex3fv((0, i[0], i[1]))
+            glVertex3fv((i[0], i[1], i[2]))
         glEnd()
         glBegin(GL_LINES)
         for i in lines_yz[1:]:
-            glVertex3fv((0, i[0], i[1]))
+            glVertex3fv((i[0], i[1], i[2]))
         glEnd()
 
         glBegin(GL_POINTS)
@@ -297,6 +282,10 @@ while running:
         for i in all_pts:
             glVertex3fv(i)
         glEnd()
+        glBegin(GL_LINES)
+        for i in all_pts[1:]:
+            glVertex3fv(i)
+        glEnd()
 
         glBegin(GL_POINTS)
         glColor3fv((1, 0, 0))
@@ -305,26 +294,5 @@ while running:
         glEnd()
 
     pygame.display.flip()
-
-# for i in p:
-#     pygame.draw.circle(scrn, white, (i[0], i[1]), 2)
-# glBegin(GL_LINES)
-# glColor3fv((1, 1, 1))
-# for i in all_pts:
-#     glVertex3fv(i)
-# glEnd()
-
-# glBegin(GL_POINTS)
-# glColor3fv((1, 0, 0))
-# for i in p:
-#     glVertex3fv(i)
-# glEnd()
-
-# pygame.display.flip()
-
-# while running:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             running = False
 
 pygame.quit()
