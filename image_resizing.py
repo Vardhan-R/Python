@@ -1,9 +1,17 @@
 from PIL import Image
 
-rating = 0 # 0 ==> s; 1 ==> q; 2 ==> e
+rating_int = 2 # 0 ==> s; 1 ==> q; 2 ==> e
 
-for i in range(40, 80):
-    im = Image.open(f"../ai_dataset_2/category_{rating}/category_{rating}_img_{i}.jpg")
+fp = open(f"ai_dataset_2/category_{rating_int}/category_{rating_int}_count.txt", 'r')
+curr_img_cnt = int(fp.readline())
+fp.close()
+
+fp = open(f"ai_dataset_2/category_{rating_int}_formatted/category_{rating_int}_formatted_count.txt", 'r')
+curr_form_img_cnt = int(fp.readline())
+fp.close()
+
+for i in range(curr_form_img_cnt, curr_img_cnt):
+    im = Image.open(f"ai_dataset_2/category_{rating_int}/category_{rating_int}_img_{i}.jpg")
     # im = Image.open(f"../ai_dataset_2/category_0/category_0_img_{i}.jpg")
     # im = Image.open(f"../ai_dataset_2/category_1/category_1_img_{i}.jpg")
     # im = Image.open(f"../ai_dataset_2/test_images/test_img_{i}.jpg")
@@ -22,13 +30,17 @@ for i in range(40, 80):
 
     # txt_file.close()
 
-    resized_img.save(f"../ai_dataset_2/category_{rating}_formatted/category_{rating}_formatted_img_{i}.jpg")
+    resized_img.save(f"ai_dataset_2/category_{rating_int}_formatted/category_{rating_int}_formatted_img_{i}.png")
     # resized_img.save(f"../ai_dataset_2/category_0_formatted/category_0_formatted_img_{i}.jpg")
     # resized_img.save(f"../ai_dataset_2/category_1_formatted/category_1_formatted_img_{i}.jpg")
     # resized_img.save(f"../ai_dataset_2/test_images_formatted/formatted_test_img_{i}.jpg")
 
     resized_img.close()
 
-    print(f"Saved {i + 1} / 80")
+    print(f"Saved \033[31m{i + 1}\033[0m / {curr_img_cnt}.")
 
-print("End of program")
+fp = open(f"ai_dataset_2/category_{rating_int}_formatted/category_{rating_int}_formatted_count.txt", 'w')
+fp.write(str(curr_img_cnt))
+fp.close()
+
+print("End of program.")
