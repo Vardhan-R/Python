@@ -777,3 +777,93 @@ b.append(1)
 a.append(b.copy())
 b = []
 print(a)
+
+
+# Collect events until released
+
+
+# ...or, in a non-blocking fashion:
+# listener = pynput.keyboard.Listener(
+#     on_press=on_press,
+#     on_release=on_release)
+# listener.start()
+# a = [108, 97, 117,114,101,110,101,109,105,110,105,99,110,32,99,114,121,101,114,112,116,101,120,32,117,98,104,115,105,102]
+# s = ""
+# for i in a:
+#     s += chr(i)
+# print(s)
+
+# print("Image\033[31m 31\033[0m on page\033[31m 17\033[0m has been saved.")
+
+# positive ==> e
+# negative ==> s
+# tp = 165
+# fp = 42
+# fn = 56
+# tn = 183
+# total = 446
+
+# print(f"Positive correctness: {tp / (tp + fn)}")
+# print(f"Negative correctness: {tn / (tn + fp)}")
+
+
+# fp = open("test_file_1.txt", 'r')
+# for i in range(5):
+#     print(fp.readline())
+# fp.close()
+
+# a = [5, 6, 7, 8, 9, 10, 11, 12]
+# print(a[:3])
+
+# image_links = ["ne", "nd", "nc", "nb", "na"]
+# print(image_links[:100])
+# left_edge_links = ["oa", "ob", "oc"]
+# right_edge_links = ["oa", "ob", "oc"]
+# left_edge_links = image_links[:3] + left_edge_links
+# right_edge_links = image_links[-1:-4:-1] + right_edge_links
+# print(right_edge_links)
+
+def isPrime(n):
+    if n == 1:
+        return False
+    for i in range(2, math.floor(math.sqrt(n) + 1)):
+        if not(n % i):
+            return False
+    return True
+
+ln_p = np.log(np.array([k for k in range(2, 100) if isPrime(k)]))
+
+fp = open("zeta_zeroes.txt", 'r')
+temp = fp.readlines()
+fp.close()
+all_t = [float(i.split(" ")[1][:-1]) for i in temp]
+
+x = np.linspace(0.1, 4.6, 10000)
+sigma = 0.5
+y_re = np.zeros(x.size)
+y_im = np.zeros(x.size)
+dips = np.zeros(ln_p.size)
+for t in all_t:
+    y_re += (np.e ** (-sigma * x) - np.cos(t * x)) / (2 * (np.cos(t * x) - np.cosh(sigma * x)))
+    y_im += np.sin(t * x) / (2 * (np.cos(t * x) - np.cosh(sigma * x)))
+    dips += (np.e ** (-sigma * ln_p) - np.cos(t * ln_p)) / (2 * (np.cos(t * ln_p) - np.cosh(sigma * ln_p)))
+
+plt.axhline(0, 0, 1, c = 'k')
+# plt.grid(True, which = "major", axis = "both")
+# plt.plot(x, y_re, label = "Re", c = 'r')
+# plt.scatter(ln_p, dips, label = "natural logarithm of primes", c = 'g')
+plt.plot(x, y_im, label = "Im", c = 'b')
+plt.scatter(ln_p, np.zeros(ln_p.size), label = "natural logarithm of primes", c = 'g')
+# plt.legend()
+plt.xlabel("x")
+plt.ylabel("y")
+plt.xlim(0.1, 4.6)
+plt.ylim(-30, 30)
+plt.show()
+
+# fp = open("fast_and_consistent_download/category_2/category_2_links.txt", 'r')
+# txt = fp.readlines()[0]
+# fp.close()
+
+# print(txt.split("%")[1])
+# print(txt.split("/")[4])
