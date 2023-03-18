@@ -1,5 +1,5 @@
+from built_modules import import_vectors as vect
 import math, pygame, random, time
-import import_vectors as vect
 
 pygame.init()
 
