@@ -1,6 +1,8 @@
 from built_modules import import_matrices as mat, import_vectors as vect
 from copy import deepcopy
 from manim import *
+from perlin_noise import PerlinNoise
+from PIL import Image
 from pynput.keyboard import Key
 from pynput.mouse import Button
 from selenium import webdriver
@@ -771,16 +773,14 @@ import collections, math, matplotlib.pyplot as plt, numpy as np, pygame, pynput,
 # for i in d:
 #     print(i)
 
-a = []
-b = []
-b.append(1)
-a.append(b.copy())
-b = []
-print(a)
-
+# a = []
+# b = []
+# b.append(1)
+# a.append(b.copy())
+# b = []
+# print(a)
 
 # Collect events until released
-
 
 # ...or, in a non-blocking fashion:
 # listener = pynput.keyboard.Listener(
@@ -823,43 +823,43 @@ print(a)
 # right_edge_links = image_links[-1:-4:-1] + right_edge_links
 # print(right_edge_links)
 
-def isPrime(n):
-    if n == 1:
-        return False
-    for i in range(2, math.floor(math.sqrt(n) + 1)):
-        if not(n % i):
-            return False
-    return True
+# def isPrime(n):
+#     if n == 1:
+#         return False
+#     for i in range(2, math.floor(math.sqrt(n) + 1)):
+#         if not(n % i):
+#             return False
+#     return True
 
-ln_p = np.log(np.array([k for k in range(2, 100) if isPrime(k)]))
+# ln_p = np.log(np.array([k for k in range(2, 100) if isPrime(k)]))
 
-fp = open("zeta_zeroes.txt", 'r')
-temp = fp.readlines()
-fp.close()
-all_t = [float(i.split(" ")[1][:-1]) for i in temp]
+# fp = open("zeta_zeroes.txt", 'r')
+# temp = fp.readlines()
+# fp.close()
+# all_t = [float(i.split(" ")[1][:-1]) for i in temp]
 
-x = np.linspace(0.1, 4.6, 10000)
-sigma = 0.5
-y_re = np.zeros(x.size)
-y_im = np.zeros(x.size)
-dips = np.zeros(ln_p.size)
-for t in all_t:
-    y_re += (np.e ** (-sigma * x) - np.cos(t * x)) / (2 * (np.cos(t * x) - np.cosh(sigma * x)))
-    y_im += np.sin(t * x) / (2 * (np.cos(t * x) - np.cosh(sigma * x)))
-    dips += (np.e ** (-sigma * ln_p) - np.cos(t * ln_p)) / (2 * (np.cos(t * ln_p) - np.cosh(sigma * ln_p)))
+# x = np.linspace(0.1, 4.6, 10000)
+# sigma = 0.5
+# y_re = np.zeros(x.size)
+# y_im = np.zeros(x.size)
+# dips = np.zeros(ln_p.size)
+# for t in all_t:
+#     y_re += (np.e ** (-sigma * x) - np.cos(t * x)) / (2 * (np.cos(t * x) - np.cosh(sigma * x)))
+#     y_im += np.sin(t * x) / (2 * (np.cos(t * x) - np.cosh(sigma * x)))
+#     dips += (np.e ** (-sigma * ln_p) - np.cos(t * ln_p)) / (2 * (np.cos(t * ln_p) - np.cosh(sigma * ln_p)))
 
-plt.axhline(0, 0, 1, c = 'k')
-# plt.grid(True, which = "major", axis = "both")
-# plt.plot(x, y_re, label = "Re", c = 'r')
-# plt.scatter(ln_p, dips, label = "natural logarithm of primes", c = 'g')
-plt.plot(x, y_im, label = "Im", c = 'b')
-plt.scatter(ln_p, np.zeros(ln_p.size), label = "natural logarithm of primes", c = 'g')
-# plt.legend()
-plt.xlabel("x")
-plt.ylabel("y")
-plt.xlim(0.1, 4.6)
-plt.ylim(-30, 30)
-plt.show()
+# plt.axhline(0, 0, 1, c = 'k')
+# # plt.grid(True, which = "major", axis = "both")
+# # plt.plot(x, y_re, label = "Re", c = 'r')
+# # plt.scatter(ln_p, dips, label = "natural logarithm of primes", c = 'g')
+# plt.plot(x, y_im, label = "Im", c = 'b')
+# plt.scatter(ln_p, np.zeros(ln_p.size), label = "natural logarithm of primes", c = 'g')
+# # plt.legend()
+# plt.xlabel("x")
+# plt.ylabel("y")
+# plt.xlim(0.1, 4.6)
+# plt.ylim(-30, 30)
+# plt.show()
 
 # fp = open("fast_and_consistent_download/category_2/category_2_links.txt", 'r')
 # txt = fp.readlines()[0]
@@ -867,3 +867,94 @@ plt.show()
 
 # print(txt.split("%")[1])
 # print(txt.split("/")[4])
+
+
+
+# freq = 2
+# unit_of_tm = 1
+# RATE = 16
+# temp = 2 ** 14 * np.sin(2 * np.pi * freq * np.linspace(0, unit_of_tm, int(RATE * unit_of_tm)))
+
+# plt.figure(figsize=(10, 5))
+# plt.plot(np.linspace(0, unit_of_tm, int(RATE * unit_of_tm)), temp)
+# plt.title('Audio')
+# plt.ylabel('Signal Value')
+# plt.xlabel('Time (s)')
+# plt.xlim(0, 1.1 * unit_of_tm)
+# plt.show()
+
+# for i in temp:
+#     i = chr(round(i))
+#     print(i)
+
+# a = [4, 5, 7, 6]
+# b = np.array([6, 5, 7, 6])
+
+# a += list(b)
+# print(a)
+
+# record for 5 seconds
+# process and check for the noise lvls
+# if noise lvl more then threshold
+# then update a .txt file
+# arduino checks the file
+# arduino outputs accordingly
+
+# noise = PerlinNoise(octaves = 8)
+
+# print("abc")
+
+# plt.figure()
+# x = np.linspace(0, 2, 200)
+# y = [noise(i) for i in x]
+# plt.plot(x, y)
+# plt.show()
+# a.show()
+
+# im = Image.open(f"ai_dataset_3/category_0_formatted/category_0_formatted_img_{0}.png", 'r')
+# print(" ".join(list(im.getdata())[0]))
+# im.close()
+
+# all_squares_vel = np.zeros((10, 10, 2))
+# all_squares_vel[5][6] = np.array([2, 3])
+
+# i = 5
+# j = 6
+# grid = np.array([[(0, 0), all_squares_vel[i - 1][j], (0, 0)],
+#                              [all_squares_vel[i][j - 1], (0, 0), all_squares_vel[i][j + 1]],
+#                              [(0, 0), all_squares_vel[i + 1][j], (0, 0)]]) - all_squares_vel[i][j]
+# print(grid[:, :, 0])
+
+# fp = open("test_file_1.txt", 'r')
+# a = np.array(fp.readlines(), dtype=np.float64)
+# print(a.size)
+# print(a)
+# # print(np.array(fp.readlines(), dtype=np.int16))
+# fp.close()
+
+# a = np.arange(100)
+# b = np.arange(100, 200)
+# a.resize((100, 1))
+# b.resize((100, 1))
+
+# np.random.seed(10)
+# np.random.shuffle(a)
+# np.random.seed(10)
+# np.random.shuffle(b)
+
+# print(b - a)
+
+# a = np.array([0, 255, 1, 4, 7, 2, 8, 100, 54, 162, 199, 200, 201, 101, 54, 32], dtype=np.float64)
+
+# a /= 255
+# print(a)
+
+def myfunc(a, b):
+    return a + b
+
+x = lambda a, b : a + b
+y = myfunc
+print(x(6, 9))
+print(y(6, 9))
+print(x(7, 12))
+print(y(7, 12))
