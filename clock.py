@@ -1,14 +1,16 @@
-import pygame, math, time
+import pygame, manim, math, time
 
 pygame.init()
 
-width = 200
-height = 200
-black = (0, 0, 0)
-red = (255, 0, 0)
-green = (0, 255, 0)
-blue = (0, 0, 255)
-white = (255, 255, 255)
+width = 800
+height = 800
+half_canvas = (width / 2, height / 2)
+pi_by_2 = math.pi / 2
+pi_by_6 = math.pi / 6
+pi_by_30 = math.pi / 30
+pi_by_360 = math.pi / 360
+pi_by_1800 = math.pi / 1800
+pi_by_21600 = math.pi / 21600
 running = True
 font = pygame.font.SysFont("Courier New", 24)
 
@@ -63,48 +65,57 @@ def vectorDistBetween(a, b):
 def vectorAngBetween(a, b):
     return math.acos(vectorDot(a, b) / (a.mag() * b.mag()))
 
-# hr_hand = Vector(0, 200)
-# min_hand = Vector(0, 240)
-# sec_hand = Vector(0, 270)
-hr_hand = Vector(0, width / 2 - 40)
-min_hand = Vector(0, width / 2 - 35)
-sec_hand = Vector(0, width / 2 - 30)
+hr_hand = Vector(0, half_canvas[0] - 200)
+min_hand = Vector(0, half_canvas[0] - 120)
+sec_hand = Vector(0, half_canvas[0] - 85)
+
+scrn.fill(manim.BLACK)
+
+pygame.draw.circle(scrn, manim.WHITE, (half_canvas[0], half_canvas[1]), half_canvas[0] - 25, 1)
+
+for i in range(12):
+    text = font.render(str(i + 1), True, manim.WHITE)
+    ang = (i + 1) * pi_by_6 - pi_by_2
+    if i < 10:
+        scrn.blit(text, (half_canvas[0] + (half_canvas[0] - 60) * math.cos(ang) - 7, half_canvas[1] + (half_canvas[0] - 60) * math.sin(ang) - 12))
+    else:
+        scrn.blit(text, (half_canvas[0] + (half_canvas[0] - 60) * math.cos(ang) - 14, half_canvas[1] + (half_canvas[0] - 60) * math.sin(ang) - 12))
+
+for i in range(60):
+    ang = i * pi_by_30 - pi_by_2
+    if i % 5:
+        pygame.draw.line(scrn, manim.WHITE, (half_canvas[0] + (half_canvas[0] - 25) * math.cos(ang), half_canvas[1] + (half_canvas[0] - 25) * math.sin(ang)), (half_canvas[0] + (half_canvas[0] - 35) * math.cos(ang), half_canvas[1] + (half_canvas[0] - 35) * math.sin(ang)))
+    else:
+        pygame.draw.line(scrn, manim.WHITE, (half_canvas[0] + (half_canvas[0] - 25) * math.cos(ang), half_canvas[1] + (half_canvas[0] - 25) * math.sin(ang)), (half_canvas[0] + (half_canvas[0] - 50) * math.cos(ang), half_canvas[1] + (half_canvas[0] - 50) * math.sin(ang)))
+
+font = pygame.font.SysFont("Courier New", 60)
 
 while running:
-    scrn.fill(black)
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    h = int(time.strftime("%H", time.localtime()))
-    m = int(time.strftime("%M", time.localtime()))
-    s = int(time.strftime("%S", time.localtime()))
+    h = time.strftime("%H", time.localtime())
+    m = time.strftime("%M", time.localtime())
+    s = time.strftime("%S", time.localtime())
 
-    hr_hand = hr_hand.setDir(h * math.pi / 6 + m * math.pi / 360 + s * math.pi / 21600 - math.pi / 2)
-    min_hand = min_hand.setDir(m * math.pi / 30 + s * math.pi / 1800 - math.pi / 2)
-    sec_hand = sec_hand.setDir(s * math.pi / 30 - math.pi / 2)
+    text = font.render(f"{h}:{m}:{s}", True, manim.WHITE)
 
-    pygame.draw.circle(scrn, white, (width / 2, height / 2), width / 2 - 25, 1)
+    h = int(h)
+    m = int(m)
+    s = int(s)
 
-    for i in range(12):
-        text = font.render(str(i + 1), True, white)
-        ang = (i + 1) * math.pi / 6 - math.pi / 2
-        if i < 10:
-            scrn.blit(text, (width / 2 + (width / 2 - 60) * math.cos(ang) - 7, height / 2 + (width / 2 - 60) * math.sin(ang) - 12))
-        else:
-            scrn.blit(text, (width / 2 + (width / 2 - 60) * math.cos(ang) - 14, height / 2 + (width / 2 - 60) * math.sin(ang) - 12))
+    pygame.draw.circle(scrn, manim.BLACK, (half_canvas[0], half_canvas[1]), half_canvas[0] - 80)
 
-    for i in range(60):
-        ang = i * math.pi / 30 - math.pi / 2
-        if i % 5:
-            pygame.draw.line(scrn, white, (width / 2 + (width / 2 - 25) * math.cos(ang), height / 2 + (width / 2 - 25) * math.sin(ang)), (width / 2 + (width / 2 - 35) * math.cos(ang), height / 2 + (width / 2 - 35) * math.sin(ang)))
-        else:
-            pygame.draw.line(scrn, white, (width / 2 + (width / 2 - 25) * math.cos(ang), height / 2 + (width / 2 - 25) * math.sin(ang)), (width / 2 + (width / 2 - 50) * math.cos(ang), height / 2 + (width / 2 - 50) * math.sin(ang)))
+    hr_hand = hr_hand.setDir(h * pi_by_6 + m * pi_by_360 + s * pi_by_21600 - pi_by_2)
+    min_hand = min_hand.setDir(m * pi_by_30 + s * pi_by_1800 - pi_by_2)
+    sec_hand = sec_hand.setDir(s * pi_by_30 - pi_by_2)
 
-    pygame.draw.line(scrn, blue, (width / 2, height / 2), (width / 2 + hr_hand.x, height / 2 + hr_hand.y))
-    pygame.draw.line(scrn, green, (width / 2, height / 2), (width / 2 + min_hand.x, height / 2 + min_hand.y))
-    pygame.draw.line(scrn, red, (width / 2, height / 2), (width / 2 + sec_hand.x, height / 2 + sec_hand.y))
+    pygame.draw.line(scrn, manim.BLUE, (half_canvas[0], half_canvas[1]), (half_canvas[0] + hr_hand.x, half_canvas[1] + hr_hand.y))
+    pygame.draw.line(scrn, manim.GREEN, (half_canvas[0], half_canvas[1]), (half_canvas[0] + min_hand.x, half_canvas[1] + min_hand.y))
+    pygame.draw.line(scrn, manim.RED, (half_canvas[0], half_canvas[1]), (half_canvas[0] + sec_hand.x, half_canvas[1] + sec_hand.y))
+
+    scrn.blit(text, (half_canvas[0], half_canvas[1]))
 
     pygame.display.update()
     time.sleep(0.5)
