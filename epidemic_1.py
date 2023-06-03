@@ -1,5 +1,5 @@
+from built_modules import import_vectors as vect
 import math, pygame, random, shelve, time
-import import_vectors as vect
 import matplotlib.pyplot as plt
 
 pygame.init()
@@ -31,11 +31,11 @@ for abc in range(10):
     p_transmission = 0.05
     p_asymptomatic = 0.1
     recovery_tm = 14 # days
-    test_time = 1 # days
+    test_time = 3 # days
     vaccinations = 10 # per day
     vaccination = False
-    load = True
-    randomise = False
+    load = False
+    randomise = True
     one_selected = False
     pmb1s = False
     pmb2s = False
@@ -200,14 +200,14 @@ for abc in range(10):
         return True
 
     if load:
-        n = shelve.open("nodes")
-        # imported_lst = n[input(str(len(n)) + ": ")]
-        imported_lst = n["1"]
-        all_nodes = imported_lst[0]
-        all_connections = imported_lst[1]
-        all_clrs = imported_lst[2]
-        all_asym = imported_lst[3]
-        n.close()
+        # n = shelve.open("nodes")
+        # # imported_lst = n[input(str(len(n)) + ": ")]
+        # imported_lst = n["1"]
+        # all_nodes = imported_lst[0]
+        # all_connections = imported_lst[1]
+        # all_clrs = imported_lst[2]
+        # all_asym = imported_lst[3]
+        # n.close()
         for i in range(len(all_nodes)):
             all_checkboxes.append([CheckBox(10, 10 * (2 * i + 1), all_clrs[i] in (red, yellow)), CheckBox(30, 10 * (2 * i + 1), all_nodes[i].asymptomatic)])
 
@@ -283,32 +283,32 @@ for abc in range(10):
                 #     # take out connections
                 #     all_nodes.pop(-1)
                 #     all_clrs.pop(-1)
-                if pygame.key.name(event.key) == "s":
-                    n = shelve.open("nodes")
-                    temp = []
+                # if pygame.key.name(event.key) == "s":
+                #     n = shelve.open("nodes")
+                #     temp = []
 
-                    temp.append(all_nodes.copy())
-                    temp.append(all_connections.copy())
-                    temp.append(all_clrs.copy())
-                    temp.append(all_asym.copy())
+                #     temp.append(all_nodes.copy())
+                #     temp.append(all_connections.copy())
+                #     temp.append(all_clrs.copy())
+                #     temp.append(all_asym.copy())
 
-                    # del(n["1"])
-                    # pos = [(388, 310), (398, 187), (530, 209), (401, 90), (559, 90), (241, 230), (170, 101), (131, 201), (160, 333), (520, 337), (672, 343), (729, 235), (255, 398), (433, 447), (293, 490), (390, 508), (511, 479), (671, 484)]
-                    # cons = [(6, 7), (6, 5), (5, 7), (7, 8), (5, 8), (0, 5), (0, 1), (2, 0), (1, 2), (2, 4), (3, 1), (4, 3), (3, 2), (4, 1), (9, 10), (10, 11), (11, 9), (9, 0), (0, 13), (0, 12), (12, 14), (14, 15), (15, 13), (15, 16), (16, 17)]
-                    # all_clrs = [(255, 255, 0), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255)]
-                    # temp_asym = [True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
-                    # for i in range(len(pos)):
-                    #     all_nodes.append(Node(pos[i][0], pos[i][1]))
-                    #     all_nodes[i].clr = all_clrs[i]
-                    #     all_nodes[i].asymptomatic = temp_asym[i]
-                    # temp.append(all_nodes.copy())
-                    # temp.append(cons.copy())
-                    # temp.append(all_clrs.copy())
-                    # temp.append(temp_asym.copy())
+                #     # del(n["1"])
+                #     # pos = [(388, 310), (398, 187), (530, 209), (401, 90), (559, 90), (241, 230), (170, 101), (131, 201), (160, 333), (520, 337), (672, 343), (729, 235), (255, 398), (433, 447), (293, 490), (390, 508), (511, 479), (671, 484)]
+                #     # cons = [(6, 7), (6, 5), (5, 7), (7, 8), (5, 8), (0, 5), (0, 1), (2, 0), (1, 2), (2, 4), (3, 1), (4, 3), (3, 2), (4, 1), (9, 10), (10, 11), (11, 9), (9, 0), (0, 13), (0, 12), (12, 14), (14, 15), (15, 13), (15, 16), (16, 17)]
+                #     # all_clrs = [(255, 255, 0), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255)]
+                #     # temp_asym = [True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+                #     # for i in range(len(pos)):
+                #     #     all_nodes.append(Node(pos[i][0], pos[i][1]))
+                #     #     all_nodes[i].clr = all_clrs[i]
+                #     #     all_nodes[i].asymptomatic = temp_asym[i]
+                #     # temp.append(all_nodes.copy())
+                #     # temp.append(cons.copy())
+                #     # temp.append(all_clrs.copy())
+                #     # temp.append(temp_asym.copy())
 
-                    n[str(len(n) + 1)] = temp.copy()
-                    n.close()
-                    print("Saved.")
+                #     n[str(len(n) + 1)] = temp.copy()
+                #     n.close()
+                #     print("Saved.")
 
         pygame.draw.line(scrn, blue, (50, 0), (50, height))
 
@@ -383,7 +383,8 @@ for abc in range(10):
                 scrn.blit(text, (all_nodes[i].pos.x, all_nodes[i].pos.y))
                 scrn.blit(text, (1, 10 * (2 * i + 1)))
 
-        # pygame.display.update()
+        pygame.display.update()
+        # time.sleep(3 - 2 * running)
 
     all_pos = []
     for i in all_nodes:
@@ -395,25 +396,25 @@ for abc in range(10):
     # print(x_lst)
     # print(y_lst)
 
-    # plt.axis([0, day + 1, 0, total_nodes + 1])
-    # plt.plot(x_lst, y_lst[0], 'k-')
-    # plt.plot(x_lst, y_lst[1], 'r-')
-    # plt.plot(x_lst, y_lst[2], 'g-')
-    # if vaccination:
-    #     plt.plot(x_lst, y_lst[3], 'm-')
-    # plt.xlabel("day")
-    # plt.ylabel("number of people")
-    # plt.show()
+    plt.axis([0, day + 1, 0, total_nodes + 1])
+    plt.plot(x_lst, y_lst[0], 'k-')
+    plt.plot(x_lst, y_lst[1], 'r-')
+    plt.plot(x_lst, y_lst[2], 'g-')
+    if vaccination:
+        plt.plot(x_lst, y_lst[3], 'm-')
+    plt.xlabel("day")
+    plt.ylabel("number of people")
+    plt.show()
 
-    data_file = shelve.open("epidemic_data")
-    temp_lst = [x_lst.copy(), y_lst.copy()]
-    data_file[str(len(data_file) + 1)] = temp_lst.copy()
-    print(len(data_file))
-    data_file.close()
+    # data_file = shelve.open("epidemic_data")
+    # temp_lst = [x_lst.copy(), y_lst.copy()]
+    # data_file[str(len(data_file) + 1)] = temp_lst.copy()
+    # print(len(data_file))
+    # data_file.close()
 
-    vars_file = open("epidemic_vars.txt", 'a')
-    vars_file.write(str(all_vars) + '\n')
-    vars_file.close()
-    print("Saved.")
+    # vars_file = open("epidemic_vars.txt", 'a')
+    # vars_file.write(str(all_vars) + '\n')
+    # vars_file.close()
+    # print("Saved.")
 
 pygame.quit()
